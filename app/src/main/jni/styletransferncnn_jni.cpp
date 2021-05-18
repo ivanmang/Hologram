@@ -66,12 +66,12 @@ JNIEXPORT jboolean JNICALL Java_com_tencent_styletransferncnn_StyleTransferNcnn_
 
     AAssetManager* mgr = AAssetManager_fromJava(env, assetManager);
 
-    const char* model_paths[5] = {"candy.bin", "mosaic.bin", "pointilism.bin", "rain_princess.bin", "udnie.bin"};
+    const char* model_paths[5] = {"a_sim.bin", "mosaic.bin", "pointilism.bin", "rain_princess.bin", "udnie.bin"};
     for (int i=0; i<5; i++)
     {
         styletransfernet[i].opt = opt;
 
-        int ret0 = styletransfernet[i].load_param(styletransfer_param_bin);
+        int ret0 = styletransfernet[i].load_param("a_sim.param");
         int ret1 = styletransfernet[i].load_model(mgr, model_paths[i]);
 
         __android_log_print(ANDROID_LOG_DEBUG, "StyleTransferNcnn", "load %d %d", ret0, ret1);
