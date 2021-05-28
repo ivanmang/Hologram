@@ -66,12 +66,12 @@ JNIEXPORT jboolean JNICALL Java_com_tencent_styletransferncnn_StyleTransferNcnn_
 
     AAssetManager* mgr = AAssetManager_fromJava(env, assetManager);
 
-    const char* model_paths[5] = {"a_sim.bin", "mosaic.bin", "pointilism.bin", "rain_princess.bin", "udnie.bin"};
+    const char* model_paths[5] = {"test.bin", "mosaic.bin", "pointilism.bin", "rain_princess.bin", "udnie.bin"};
     for (int i=0; i<5; i++)
     {
         styletransfernet[i].opt = opt;
 
-        int ret0 = styletransfernet[i].load_param("a_sim.param");
+        int ret0 = styletransfernet[i].load_param("test.param");
         int ret1 = styletransfernet[i].load_model(mgr, model_paths[i]);
 
         __android_log_print(ANDROID_LOG_DEBUG, "StyleTransferNcnn", "load %d %d", ret0, ret1);
@@ -99,10 +99,10 @@ JNIEXPORT jboolean JNICALL Java_com_tencent_styletransferncnn_StyleTransferNcnn_
     int width = info.width;
     int height = info.height;
 
-    const int downscale_ratio = 2;
+    const int downscale_ratio = 1;
 
     // ncnn from bitmap
-    ncnn::Mat in = ncnn::Mat::from_android_bitmap_resize(env, bitmap, ncnn::Mat::PIXEL_RGB, width / downscale_ratio, height / downscale_ratio);
+    ncnn::Mat in = ncnn::Mat::from_android_bitmap_resize(env, bitmap, ncnn::Mat::PIXEL_RGB, 640, 360);
 
     // styletransfer
     ncnn::Mat out;
@@ -111,9 +111,9 @@ JNIEXPORT jboolean JNICALL Java_com_tencent_styletransferncnn_StyleTransferNcnn_
 
         ex.set_vulkan_compute(use_gpu);
 
-        ex.input(styletransfer_param_id::BLOB_input1, in);
+        ex.input("s", in);
 
-        ex.extract(styletransfer_param_id::BLOB_output1, out);
+        ex.extract("pha", out);
     }
 
     // ncnn to bitmap

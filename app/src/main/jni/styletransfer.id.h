@@ -145,6 +145,6 @@ const int BLOB_172 = 72;
 const int LAYER_173 = 68;
 const int BLOB_173 = 73;
 const int LAYER_output1 = 69;
-const int BLOB_output1 = 74;
+const int BLOB_output1 = 367;
 } // namespace styletransfer_param_id
 #endif // NCNN_INCLUDE_GUARD_styletransfer_id_h
